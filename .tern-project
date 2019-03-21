@@ -1,0 +1,14 @@
+{
+  "ecmaVersion": "6",
+  "libs": [
+    "react"
+  ],
+  "loadEagerly": [],
+  "dontLoad": [
+    "node_modules/**"
+  ],
+  "plugins": {
+    "doc_comment": true,
+    "es_modules": {}
+  }
+}
