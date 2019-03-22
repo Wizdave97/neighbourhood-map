@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './map.module.css';
 
-let map;
+
 const Map= (props)=>{
     var styles = [
           {
@@ -69,19 +69,22 @@ const Map= (props)=>{
             ]
           }
         ];
-
-        window.addEventListener('DOMContentLoaded',function() {
-          map= new window.google.maps.Map(document.getElementById(props.id),{
+        function initMap() {
+        let map= new props.google.maps.Map(document.getElementById(props.id),{
             center:{lat: 40.7413549, lng: -73.9980244},
             zoom:14,
             styles:styles,
             streetViewControl:false,
-            
+            mapTypeControl:false
           })
+          //console.log(map)
           window.map=map
+        }
+        window.addEventListener('load',function(){
+          if(props.googleMapsLoaded){
+              initMap();
+            }
         })
-
-
 
         return (
           <div id={props.id} className={classes.map}></div>
