@@ -1,9 +1,11 @@
 import React  from 'react';
 import classes from './app.module.css';
 import MapContainer from './components/mapContainer/mapContainer';
-import ListView from './components/ListView/ListView'
-
-
+import ListView from './components/ListView/ListView';
+import { createInfoWindow } from './components/InfoWindow';
+import { placeDetailsService } from './components/PlaceDetails/PlaceDetails';
+let infoWindow;
+let currentMarker;
 class App extends React.PureComponent {
   state={
     locations:[],
@@ -27,7 +29,7 @@ class App extends React.PureComponent {
                 for(let item of items) {
                   let details={}
                   details.position={lat:item.venue.location.lat,lng:item.venue.location.lng};
-                  details.id=item.id;
+                  details.id=item.venue.id;
                   details.name=item.venue.name;
                   locations.push(details)
                 }
@@ -47,6 +49,8 @@ class App extends React.PureComponent {
         s.src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyB590AsZEOF1dkep0N-vvAJ4PZHfpN_hxw&v=3"
         document.body.appendChild(s)
         s.addEventListener('load',function() {
+            infoWindow=createInfoWindow();
+
             self.setState(state=>({
               googleMapsLoaded:!state.googleMapsLoaded,
               google:window.google
@@ -57,6 +61,45 @@ class App extends React.PureComponent {
     this.setState({
       query:query
     })
+  }
+  moreInfo =(id)=>{
+
+    for(let marker of window.markers){
+      marker.setAnimation(null)
+      if(marker.id===id){
+        if(currentMarker===marker) return
+        placeDetailsService(marker.title).then(results=>{
+          let html=`${marker.title}<br>`;
+          if(results) {
+            if(results.opening_hours){
+              html+=`<div>
+                ${results.opening_hours.open_now?'Open Now<br>':'Closed<br>'}
+                ${results.opening_hours.weekday_text[0]}<br>
+                ${results.opening_hours.weekday_text[1]}<br>
+                ${results.opening_hours.weekday_text[2]}<br>
+                ${results.opening_hours.weekday_text[3]}<br>
+                ${results.opening_hours.weekday_text[4]}<br>
+                ${results.opening_hours.weekday_text[5]}<br>
+              </div>`
+            }
+            if(results.photos){
+              html+=`<img src='${results.photos[0].getUrl({maxHeight:100,maxWidth:200})}'>`
+            }
+            infoWindow.setContent(html)
+          }
+          else {
+            infoWindow.setContent(`${marker.title}`)
+            console.log(results)
+          }
+          infoWindow.open(window.map, marker)
+          marker.setAnimation(window.google.maps.Animation.BOUNCE)
+        })
+        currentMarker=marker;
+        infoWindow.addListener('closeclick',function(){
+          marker.setAnimation(null)
+        })
+      }
+    }
   }
 
   render() {
@@ -71,12 +114,12 @@ class App extends React.PureComponent {
       matchingLocations=this.state.locations
     }
     let content;
-    if(this.state.errorLoadingData && !this.state.googleMapsLoaded) content=(<div><h4>Network error check your connection and refresh</h4></div>)
+    if(this.state.errorLoadingData && !this.state.googleMapsLoaded) content=(<div><h4>Network error check your connection and refresh{setTimeout(()=>{window.location.reload()},3000)}</h4></div>)
     else if(!this.state.googleMapsLoaded)   content=(<div className={classes.loader}>Loading...</div>)
     else if(this.state.googleMapsLoaded){
       //console.log(this.state.google)
       content=(<div className={classes.container}>
-                  <ListView query={this.state.query} onQueryUpdate={this.updateQuery}/>
+                  <ListView locations={matchingLocations} query={this.state.query} onQueryUpdate={this.updateQuery} moreInfo={this.moreInfo}/>
                   <MapContainer googleMapsLoaded={this.state.googleMapsLoaded} google={this.state.google} locations={matchingLocations}/>
               </div>
     )

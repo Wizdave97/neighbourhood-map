@@ -1,9 +1,13 @@
-.list-item{
+.listitem{
   padding:5px;
   display: block;
   width:100%;
+  color:white;
+  cursor: pointer;
+  min-height:48px;
+  align-self:flex-start;
 }
-.list-item:hover{
-  background-color: rgb(255,255,255);
-  color:black;
+.listitem:hover{
+  background-color: #561E4C;
+  color:white;
 }

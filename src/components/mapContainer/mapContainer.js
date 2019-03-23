@@ -24,7 +24,7 @@ class MapContainer extends React.PureComponent {
       this.createMarkers();
       this.populateInfoWindow();
     }
-    this.renderMarkers();    
+    this.renderMarkers();
   }
 
   createMarkers = () =>{
@@ -34,7 +34,7 @@ class MapContainer extends React.PureComponent {
       markers.push(marker)
       this.state.bounds.extend(marker.position)
       }
-
+      window.markers=markers;
     }
     renderMarkers=()=>{
       if(markers.length!==0){
@@ -47,13 +47,14 @@ class MapContainer extends React.PureComponent {
       for(let place of this.props.locations ){
         currentLocationNames.push(place.name)
       }
-      console.log(currentLocationNames)
+      //console.log(currentLocationNames)
       for(let i=0;i<markers.length;i++ ){
         if(currentLocationNames.includes(markers[i].title)){
           setTimeout(()=>{
             markers[i].setMap(window.map)
           },i*300)
         }
+        else{  continue }
       }
     window.map.fitBounds(this.state.bounds);
     }

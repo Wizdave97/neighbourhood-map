@@ -1,7 +1,7 @@
 .search {
   width:100%;
   outline:none;
-  min-height:48px;
+  height:48px;
   margin-right:0;
   font-size: 1.2em;
 }
@@ -9,7 +9,7 @@
   width:30%;
   background-color:#ccc;
   color:black;
-  min-height:48px;
+  height:48px;
   margin-left:0;
   font-size: 1.5em;
   border-style: none;
@@ -18,9 +18,9 @@
 .searchContainer{
   width:100%;
   display: flex;
-  flex-wrap:nowrap;
-  min-height:48px;
+  height:48px;
   box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+  margin-bottom:0;
 }
 .filter:hover {
   background-color: #19a0d8;
