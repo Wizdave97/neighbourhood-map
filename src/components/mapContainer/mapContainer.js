@@ -76,6 +76,7 @@ class MapContainer extends React.PureComponent {
           this.setAnimation(window.google.maps.Animation.BOUNCE)
           infoWindow.addListener('closeclick',function(){
             infoWindow.marker=null
+            currentMarker=null;
             self.setAnimation(null)
           })
           currentMarker=this;

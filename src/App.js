@@ -19,7 +19,7 @@ class App extends React.PureComponent {
   componentDidMount(){
     this.onScriptload()
     //Fetch location details from Foursquare Database and add it to the app State
-    fetch('https://api.foursquare.com/v2/venues/explore?near=Lagos,Nigeria&client_id=0TTKXNKQVRBEFNZCJM4YK0KU5N2OZF5XPWPEWJBK4YDS0G2P&client_secret=S2MNT5NTVP0BCSON4XBK51VFQKHJKW4UTUSKQGMII5XK1KUT&v=20190320',
+    fetch('https://api.foursquare.com/v2/venues/explore?near=London,UK&client_id=0TTKXNKQVRBEFNZCJM4YK0KU5N2OZF5XPWPEWJBK4YDS0G2P&client_secret=S2MNT5NTVP0BCSON4XBK51VFQKHJKW4UTUSKQGMII5XK1KUT&v=20190320',
           {method:'GET'}).then(response=>response.json()).then(
             response=> {
               if(response.meta.code===200){
@@ -93,6 +93,8 @@ class App extends React.PureComponent {
           }
           infoWindow.open(window.map, marker)
           marker.setAnimation(window.google.maps.Animation.BOUNCE)
+        }).catch(err=>{
+            infoWindow.setContent(`${marker.title}`)
         })
         currentMarker=marker;
         infoWindow.addListener('closeclick',function(){
