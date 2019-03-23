@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import classes from './app.module.css';
 import MapContainer from './components/mapContainer/mapContainer';
+import ListView from './components/ListView/ListView'
+
 
 class App extends Component {
   state={
@@ -8,10 +10,12 @@ class App extends Component {
     errorLoadingData:false,
     googleMapsLoaded:false,
     google:null,
+    menu:false,
   }
 
   componentDidMount(){
     this.onScriptload()
+    //Fetch location details from Foursquare Database and add it to the app State
     fetch('https://api.foursquare.com/v2/venues/explore?near=Lagos,Nigeria&client_id=0TTKXNKQVRBEFNZCJM4YK0KU5N2OZF5XPWPEWJBK4YDS0G2P&client_secret=S2MNT5NTVP0BCSON4XBK51VFQKHJKW4UTUSKQGMII5XK1KUT&v=20190320',
           {method:'GET'}).then(response=>response.json()).then(
             response=> {
@@ -35,7 +39,7 @@ class App extends Component {
             errorLoadingData:!state.errorLoadingData
           })))
   }
-
+  // this function loads the google maps JavaScript API and adds it to the state and the global window object
   onScriptload=()=>{
     const self=this;
     let s =document.createElement('script')
@@ -51,11 +55,12 @@ class App extends Component {
 
   render() {
     let content;
-    if(this.state.errorLoadingData) { window.location.reload() }
-    if(!this.state.googleMapsLoaded)   content=(<div className={classes.loader}>Loading...</div>)
-    if(this.state.googleMapsLoaded){
+    if(this.state.errorLoadingData && !this.state.googleMapsLoaded) content=(<div><h4>Network error check your connection and refresh</h4></div>)
+    else if(!this.state.googleMapsLoaded)   content=(<div className={classes.loader}>Loading...</div>)
+    else if(this.state.googleMapsLoaded){
       //console.log(this.state.google)
       content=(<div className={classes.container}>
+                  <ListView/>
                   <MapContainer googleMapsLoaded={this.state.googleMapsLoaded} google={this.state.google} locations={this.state.locations}/>
               </div>
     )

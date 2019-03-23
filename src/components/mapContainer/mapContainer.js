@@ -4,6 +4,7 @@ import Map from '../map/Map';
 import { createMarker } from '../Marker/Marker';
 import { createInfoWindow } from '../InfoWindow';
 import { createStreetView } from '../streetView/StreetView';
+import Menu from '../../menu.svg';
 
 
 
@@ -23,6 +24,7 @@ class MapContainer extends Component {
     this.renderMarkers();
     this.populateInfoWindow();
   }
+
   createMarkers = () =>{
     let marker;
     for(let location of this.props.locations){
@@ -41,6 +43,7 @@ class MapContainer extends Component {
     window.map.fitBounds(this.state.bounds);
 
     }
+    // Creates the infoWindow object and populates it with the streetView Panorama
     populateInfoWindow =() =>{
       let currentMarker=null
       const infoWindow=createInfoWindow();
@@ -52,7 +55,7 @@ class MapContainer extends Component {
           }
           const self=this;
           infoWindow.marker=this
-          infoWindow.setContent(this.title+'<div id="pano" ></div>')
+          infoWindow.setContent(`<div>${this.title}<div id="pano" ></div><div>`)
           createStreetView(this);
           infoWindow.open(window.map,this)
           this.setAnimation(window.google.maps.Animation.BOUNCE)
@@ -69,6 +72,7 @@ class MapContainer extends Component {
 
     return(
       <div  className={classes.map}>
+        <div className={classes.menu}><img src={Menu} alt="menu icon"/></div>
         <Map id={"map"} googleMapsLoaded={this.props.googleMapsLoaded} map={classes.map} google={this.props.google}/>
       </div>
     )

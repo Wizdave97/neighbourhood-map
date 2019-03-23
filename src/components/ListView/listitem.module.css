@@ -1,0 +1,9 @@
+.list-item{
+  padding:5px;
+  display: block;
+  width:100%;
+}
+.list-item:hover{
+  background-color: rgb(255,255,255);
+  color:black;
+}

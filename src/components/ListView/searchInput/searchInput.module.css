@@ -1,0 +1,32 @@
+.search {
+  width:100%;
+  outline:none;
+  min-height:48px;
+  margin-right:0;
+  font-size: 1.2em;
+}
+.filter{
+  width:30%;
+  background-color:#ccc;
+  color:black;
+  min-height:48px;
+  margin-left:0;
+  font-size: 1.5em;
+  border-style: none;
+  cursor: pointer;
+}
+.searchContainer{
+  width:100%;
+  display: flex;
+  flex-wrap:nowrap;
+  min-height:48px;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+}
+.filter:hover {
+  background-color: #19a0d8;
+}
+@media screen and (max-width:650px) {
+  .search{
+    font-size:1em;
+  }
+}

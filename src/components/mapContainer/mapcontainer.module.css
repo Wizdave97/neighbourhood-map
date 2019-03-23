@@ -1,4 +1,26 @@
 .map {
   width:100%;
   height:100vh;
+  order:2;
+}
+.menu{
+  width:48px;
+  height:48px;
+  position:absolute;
+  top:10px;
+  left:10px;
+  z-index: 1000;
+}
+.menu img{
+  width:100%;
+  height:48px;
+  cursor:pointer;
+}
+@media screen and (min-width:576px) {
+  .menu{
+    display:none;
+  }
+  .map{
+    width:60%;
+  }
 }
