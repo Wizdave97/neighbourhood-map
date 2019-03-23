@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import classes from './mapcontainer.module.css';
 import Map from '../map/Map';
 import { createMarker } from '../Marker/Marker';
@@ -10,7 +10,7 @@ import Menu from '../../menu.svg';
 
 
 const markers=[]
-class MapContainer extends Component {
+class MapContainer extends React.PureComponent {
   state={
     bounds:new this.props.google.maps.LatLngBounds()
 
@@ -20,9 +20,11 @@ class MapContainer extends Component {
 
   }
   componentDidUpdate(){
-    this.createMarkers();
-    this.renderMarkers();
-    this.populateInfoWindow();
+    if(markers.length===0){
+      this.createMarkers();
+      this.populateInfoWindow();
+    }
+    this.renderMarkers();    
   }
 
   createMarkers = () =>{
@@ -35,13 +37,25 @@ class MapContainer extends Component {
 
     }
     renderMarkers=()=>{
+      if(markers.length!==0){
+        for(let marker of markers){
+          marker.setMap(null)
+        }
+      }
+      // THis ensures only markers that match the search query are rendered
+      let currentLocationNames=[];
+      for(let place of this.props.locations ){
+        currentLocationNames.push(place.name)
+      }
+      console.log(currentLocationNames)
       for(let i=0;i<markers.length;i++ ){
-        setTimeout(()=>{
-          markers[i].setMap(window.map)
-        },i*300)
+        if(currentLocationNames.includes(markers[i].title)){
+          setTimeout(()=>{
+            markers[i].setMap(window.map)
+          },i*300)
+        }
       }
     window.map.fitBounds(this.state.bounds);
-
     }
     // Creates the infoWindow object and populates it with the streetView Panorama
     populateInfoWindow =() =>{

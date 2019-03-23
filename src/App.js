@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import classes from './app.module.css';
 import MapContainer from './components/mapContainer/mapContainer';
 import ListView from './components/ListView/ListView'
 
 
-class App extends Component {
+class App extends React.PureComponent {
   state={
     locations:[],
     errorLoadingData:false,
     googleMapsLoaded:false,
     google:null,
     menu:false,
+    query:''
   }
 
   componentDidMount(){
@@ -52,16 +53,31 @@ class App extends Component {
             }))
         })
   }
+  updateQuery =(query)=>{
+    this.setState({
+      query:query
+    })
+  }
 
   render() {
+    let matcher= new RegExp(`${this.state.query}`,'gi');
+    let matchingLocations;
+    if(this.state.query) {
+      matchingLocations=this.state.locations.filter(location=>{
+        return matcher.test(location.name)
+      });
+    }
+    else{
+      matchingLocations=this.state.locations
+    }
     let content;
     if(this.state.errorLoadingData && !this.state.googleMapsLoaded) content=(<div><h4>Network error check your connection and refresh</h4></div>)
     else if(!this.state.googleMapsLoaded)   content=(<div className={classes.loader}>Loading...</div>)
     else if(this.state.googleMapsLoaded){
       //console.log(this.state.google)
       content=(<div className={classes.container}>
-                  <ListView/>
-                  <MapContainer googleMapsLoaded={this.state.googleMapsLoaded} google={this.state.google} locations={this.state.locations}/>
+                  <ListView query={this.state.query} onQueryUpdate={this.updateQuery}/>
+                  <MapContainer googleMapsLoaded={this.state.googleMapsLoaded} google={this.state.google} locations={matchingLocations}/>
               </div>
     )
     }

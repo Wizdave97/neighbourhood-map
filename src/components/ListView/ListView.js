@@ -6,7 +6,7 @@ const listView = (props) =>{
 
   return(
     <div className={classes.listContainer}>
-      <SearchInput/>
+      <SearchInput query={props.query} onQueryUpdate={props.onQueryUpdate}/>
       <ul className={classes.list}></ul>
     </div>
   )
