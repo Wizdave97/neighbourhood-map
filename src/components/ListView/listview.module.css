@@ -30,12 +30,12 @@
 }
 
 @media screen and (min-width:799px){
-  .listContainer[style]{
+  .listContainer{
     width:25% !important;
     display:flex;
     flex-wrap:wrap;
     z-index: 0;
-    position:relative;
+    position:relative !important;
     order:1;
   }
   .closeButton{
