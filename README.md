@@ -2,6 +2,10 @@
 
 This project utilises the googlemaps JavaScript API to render interesting places in London
 
+## Built With
+
+This app was built with React
+
 ## APIs Used
 
 Foursquare API was used to fetch data on the locations of interesting places in London
