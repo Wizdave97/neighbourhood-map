@@ -1,12 +1,16 @@
 .listContainer{
-  width:50%;
+  width:0;
   height:100vh;
   overflow-y: scroll;
   background-color:#2A1727;
-  order:1;
-  display: none;
+  display: flex;
   flex-wrap:wrap;
+  position: absolute;
+  z-index: 3;
+  transition: 0.3s linear width;
+  left:0;
 }
+
 .list{
   display: flex;
   padding: 0;
@@ -16,30 +20,23 @@
   flex-wrap:wrap;
   min-height:100%
 }
-.show-list{
-  width:50%;
-  display:flex;
-  flex-wrap:wrap;
-  position: absolute;
-  left:0;
-  top:0;
-  z-index: 2000;
-  height:100vh;
-  background-color:#2A1727;
-  overflow-y: scroll;
+.closeButton{
+  width:100%;
+  height:48px;
+  background-color: inherit;
+  color:white;
+  font-size: 1.2em;
+  cursor: pointer;
 }
+
 @media screen and (min-width:799px){
-  .listContainer{
-    width:25%;
+  .listContainer[style]{
+    width:25% !important;
     display:flex;
     flex-wrap:wrap;
     z-index: 0;
-    left:0;
-  }
-  .show-list{
-    width:25%;
-    z-index: 0;
-    position: relative;
+    position:relative;
     order:1;
   }
+
 }
