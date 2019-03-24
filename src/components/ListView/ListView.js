@@ -6,7 +6,7 @@ import ListItem from './ListItem';
 const listView = (props) =>{
 
   return(
-    <div className={classes.listContainer}>
+    <div id="list-container" className={classes.listContainer}>
       <SearchInput query={props.query} onQueryUpdate={props.onQueryUpdate}/>
       <ul className={classes.list}>{
           props.locations.map((location,index)=>{

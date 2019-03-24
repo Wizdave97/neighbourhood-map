@@ -82,13 +82,20 @@ class MapContainer extends React.PureComponent {
           currentMarker=this;
         })}
       }
+      openList=()=>{
+        let listView=document.querySelector('#list-container');
+        //console.log(listView)
+        //listView.classList.toggle('listview_listContainer__29_Il')
+        //listView.classList.toggle('show-list')
+
+      }
 
 
   render() {
 
     return(
       <div  className={classes.map}>
-        <div className={classes.menu}><img src={Menu} alt="menu icon"/></div>
+        <div className={classes.menu} onClick={()=>this.openList()}><img src={Menu} alt="menu icon"/></div>
         <Map id={"map"} googleMapsLoaded={this.props.googleMapsLoaded} map={classes.map} google={this.props.google}/>
       </div>
     )
